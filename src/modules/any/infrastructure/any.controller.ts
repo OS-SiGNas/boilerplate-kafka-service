@@ -6,7 +6,7 @@ interface Dependences {
   // service: AnyService;
 }
 
-export class AnyStrategy {
+export class AnyController {
   readonly #producer: ProducerClient;
   // readonly #service: AnyService;
   constructor({ kafkaProducer }: Dependences) {

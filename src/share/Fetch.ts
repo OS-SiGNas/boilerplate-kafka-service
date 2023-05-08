@@ -17,6 +17,29 @@ export class Fetch {
     this.#token = token ?? "";
   }
 
+  readonly #request = async <T>({ method, endpoint, body }: RequestParams): Promise<T> => {
+    const response = await global.fetch(`${this.#url}${endpoint}`, this.#options(method, body));
+    const headers = response.headers.get("content-type");
+    if (headers !== null) {
+      if (headers.includes("json")) return await response.json();
+    }
+    return response as T;
+  };
+
+  readonly #options = (method?: Method, body?: object): RequestInit => {
+    return {
+      method,
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.#token}`,
+      },
+      body: JSON.stringify(body),
+    };
+  };
+
   /**
    * use .get<MyInterfaceResponse>(endpoint) for types
    * @param endpoint -> like "/route" */
@@ -45,36 +68,13 @@ export class Fetch {
     return await this.#request({ method: "DELETE", endpoint });
   };
 
-  readonly #request = async <T>({ method, endpoint, body }: RequestParams): Promise<T> => {
-    const response = await global.fetch(`${this.#url}${endpoint}`, this.#options(method, body));
-    const headers = response.headers.get("content-type");
-    if (headers !== null) {
-      if (headers.includes("json")) return await response.json();
-    }
-    return response as T;
-  };
-
-  readonly #options = (method?: Method, body?: object): RequestInit => {
-    return {
-      method,
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.#token}`,
-      },
-      body: JSON.stringify(body),
-    };
-  };
-
-  get token(): string {
-    return this.#token;
-  }
-
   /**
    * Set your Bearer token */
   set token(token: string) {
     this.#token = token;
+  }
+
+  get token(): string {
+    return this.#token;
   }
 }

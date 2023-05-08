@@ -6,7 +6,7 @@ interface Dependences {
   // service: PaymentezService;
 }
 
-export class PaymentezStrategy {
+export class PaymentezController {
   readonly #producer: ProducerClient;
   // readonly #service: PaymentezService;
   constructor({ kafkaProducer }: Dependences) {
