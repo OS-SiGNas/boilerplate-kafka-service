@@ -1,0 +1,1 @@
+npm i -D @typescript-eslint/eslint-plugin eslint eslint-config-prettier eslint-config-standard-with-typescript eslint-plugin-import eslint-plugin-n eslint-plugin-prettier eslint-plugin-promise prettier ts-node-dev tsc typescript
